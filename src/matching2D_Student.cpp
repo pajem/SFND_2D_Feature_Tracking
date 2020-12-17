@@ -7,6 +7,9 @@ using namespace std;
 void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::KeyPoint> &kPtsRef, cv::Mat &descSource, cv::Mat &descRef,
                       std::vector<cv::DMatch> &matches, std::string descriptorType, std::string matcherType, std::string selectorType)
 {
+    // time
+    double t = static_cast<double>(cv::getTickCount());
+
     // configure matcher
     bool crossCheck = false;
     cv::Ptr<cv::DescriptorMatcher> matcher;
@@ -56,6 +59,10 @@ void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::Key
     } else {
         throw std::runtime_error("Unsupported selector type. Supported selectors are: SEL_NN, SEL_KNN.");
     }
+
+    // time
+    t = (static_cast<double>(cv::getTickCount()) - t) / cv::getTickFrequency();
+    std::cout << matcherType << " matcher and " << selectorType << " selector with n=" << matches.size() << " matches in " << 1000 * t / 1.0 << " ms" << endl;
 }
 
 // Use one of several types of state-of-art descriptors to uniquely identify keypoints
