@@ -32,6 +32,7 @@ int main(int argc, const char *argv[])
     }
     std::string detectorType = argv[1]; // SHITOMASI, HARRIS, FAST, BRISK, ORB, AKAZE, SIFT
     std::string descriptorType = argv[2]; // BRISK, BRIEF, ORB, FREAK, AKAZE, SIFT
+    bool isDesBinary = (descriptorType == "SIFT") ? false : true;
     std::string matcherType = argv[3]; // MAT_BF, MAT_FLANN
     std::string selectorType = argv[4]; // SEL_NN, SEL_KNN
 
@@ -164,7 +165,7 @@ int main(int argc, const char *argv[])
             /* MATCH KEYPOINT DESCRIPTORS */
 
             vector<cv::DMatch> matches;
-            string descriptorType = "DES_BINARY"; // DES_BINARY, DES_HOG
+            string descriptorType = isDesBinary ? "DES_BINARY" : "DES_HOG"; // DES_BINARY, DES_HOG
 
             //// STUDENT ASSIGNMENT
             //// TASK MP.5 -> add FLANN matching in file matching2D.cpp
