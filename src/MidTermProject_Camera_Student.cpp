@@ -123,6 +123,7 @@ int main(int argc, const char *argv[])
                                 }),
                 keypoints.end());
         }
+        std::cout << "keypoints inside cv::Rect: " << keypoints.size() << std::endl;
 
         //// EOF STUDENT ASSIGNMENT
 
