@@ -21,17 +21,19 @@ using namespace std;
 /* MAIN PROGRAM */
 int main(int argc, const char *argv[])
 {
-    if (argc < 4) {
+    if (argc < 5) {
         std::cerr << "Invalid argument count!" << std::endl;
-        std::cerr << "2d_feature_tracking [detector type] [descriptor type] [matcher type]" << std::endl;
+        std::cerr << "2d_feature_tracking [detector type] [descriptor type] [matcher type] [selector type]" << std::endl;
         std::cerr << "Detector Types: SHITOMASI, HARRIS, FAST, BRISK, ORB, AKAZE, SIFT" << std::endl;
         std::cerr << "Descriptor Types: BRISK, BRIEF, ORB, FREAK, AKAZE, SIFT" << std::endl;
         std::cerr << "Matcher Types: MAT_BF, MAT_FLANN" << std::endl;
+        std::cerr << "Selector Types: SEL_NN, SEL_KNN" << std::endl;
         return EXIT_FAILURE;
     }
     std::string detectorType = argv[1]; // SHITOMASI, HARRIS, FAST, BRISK, ORB, AKAZE, SIFT
     std::string descriptorType = argv[2]; // BRISK, BRIEF, ORB, FREAK, AKAZE, SIFT
-    string matcherType = argv[3]; // MAT_BF, MAT_FLANN
+    std::string matcherType = argv[3]; // MAT_BF, MAT_FLANN
+    std::string selectorType = argv[4]; // SEL_NN, SEL_KNN
 
     /* INIT VARIABLES AND DATA STRUCTURES */
 
@@ -163,7 +165,6 @@ int main(int argc, const char *argv[])
 
             vector<cv::DMatch> matches;
             string descriptorType = "DES_BINARY"; // DES_BINARY, DES_HOG
-            string selectorType = "SEL_NN";       // SEL_NN, SEL_KNN
 
             //// STUDENT ASSIGNMENT
             //// TASK MP.5 -> add FLANN matching in file matching2D.cpp

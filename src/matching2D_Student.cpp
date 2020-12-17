@@ -21,6 +21,8 @@ void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::Key
         if (descSource.type() != CV_32F) descSource.convertTo(descSource, CV_32F);
         if (descRef.type() != CV_32F) descRef.convertTo(descRef, CV_32F);
         matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
+    } else {
+        throw std::runtime_error("Unsupported matcher type. Supported matchers are: MAT_BF, MAT_FLANN.");
     }
 
     // perform matching task
@@ -31,8 +33,28 @@ void matchDescriptors(std::vector<cv::KeyPoint> &kPtsSource, std::vector<cv::Key
     }
     else if (selectorType.compare("SEL_KNN") == 0)
     { // k nearest neighbors (k=2)
+        static const int k = 2;
+        std::vector<std::vector<cv::DMatch>> kMatches;
+        matcher->knnMatch(descSource, descRef, kMatches, k);
 
-        // ...
+        // filter matches using descriptor distance ratio test
+        bool filtering = true;
+        static const double descDistanceRatioThreshold = 0.8;
+        for (auto& kMatch : kMatches) {
+            if (!filtering) {
+                // get the best match
+                matches.push_back(kMatch[0]);
+            }
+            else {
+                // get only the best match if it passes descriptor distance ratio test
+                double descDistanceRatio = kMatch[0].distance / kMatch[1].distance;
+                if (descDistanceRatio < descDistanceRatioThreshold) {
+                    matches.push_back(kMatch[0]);
+                }
+            }
+        }
+    } else {
+        throw std::runtime_error("Unsupported selector type. Supported selectors are: SEL_NN, SEL_KNN.");
     }
 }
 
@@ -60,6 +82,8 @@ void descKeypoints(vector<cv::KeyPoint> &keypoints, cv::Mat &img, cv::Mat &descr
         extractor = cv::AKAZE::create();
     } else if (descriptorType == "SIFT") {
         extractor = cv::SIFT::create();
+    } else {
+        throw std::runtime_error("Unsupported descriptor type. Supported descriptors are: BRIEF, ORB, FREAK, AKAZE, SIFT.");
     }
 
     // perform feature description
