@@ -21,6 +21,13 @@ using namespace std;
 /* MAIN PROGRAM */
 int main(int argc, const char *argv[])
 {
+    if (argc < 2) {
+        std::cerr << "Invalid argument count!" << std::endl;
+        std::cerr << "2d_feature_tracking [detector type]" << std::endl;
+        std::cerr << "Detector Types: SHITOMASI, HARRIS, FAST, BRISK, ORB, AKAZE, SIFT" << std::endl;
+        return EXIT_FAILURE;
+    }
+    std::string detectorType = argv[1];
 
     /* INIT VARIABLES AND DATA STRUCTURES */
 
@@ -76,7 +83,7 @@ int main(int argc, const char *argv[])
 
         // extract 2D keypoints from current image
         vector<cv::KeyPoint> keypoints; // create empty feature list for current image
-        string detectorType = "SHITOMASI";
+        bool visualizeKeypoints = false;
 
         //// STUDENT ASSIGNMENT
         //// TASK MP.2 -> add the following keypoint detectors in file matching2D.cpp and enable string-based selection based on detectorType
@@ -84,11 +91,13 @@ int main(int argc, const char *argv[])
 
         if (detectorType.compare("SHITOMASI") == 0)
         {
-            detKeypointsShiTomasi(keypoints, imgGray, false);
+            detKeypointsShiTomasi(keypoints, imgGray, visualizeKeypoints);
         }
-        else
+        else if (detectorType == "HARRIS")
         {
-            //...
+            detKeypointsHarris(keypoints, imgGray, visualizeKeypoints);
+        } else {
+            // detKeypointsModern(keypoints,  imgGray, detectorType, visualizeKeypoints);
         }
         //// EOF STUDENT ASSIGNMENT
 
