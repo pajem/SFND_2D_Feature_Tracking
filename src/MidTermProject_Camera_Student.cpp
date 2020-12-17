@@ -109,7 +109,12 @@ int main(int argc, const char *argv[])
         cv::Rect vehicleRect(535, 180, 180, 150);
         if (bFocusOnVehicle)
         {
-            // ...
+            keypoints.erase(
+                std::remove_if(keypoints.begin(), keypoints.end(),
+                                [&vehicleRect](const cv::KeyPoint &keypoint) {
+                                return !(vehicleRect.contains(keypoint.pt));
+                                }),
+                keypoints.end());
         }
 
         //// EOF STUDENT ASSIGNMENT
