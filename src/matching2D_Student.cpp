@@ -102,7 +102,8 @@ void detKeypointsShiTomasi(vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool b
     }
 }
 
-void detKeypointsHarris(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis) {
+void detKeypointsHarris(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool bVis)
+{
     // time
     double t = static_cast<double>(cv::getTickCount());
 
@@ -165,4 +166,33 @@ void detKeypointsHarris(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, bool
         imshow(windowName, visImage);
         cv::waitKey(0);
     }
+}
+
+// FAST, BRISK, ORB, AKAZE, SIFT
+void detKeypointsModern(std::vector<cv::KeyPoint> &keypoints, cv::Mat &img, std::string detectorType, bool bVis)
+{
+    // use default parameters for each detector type
+    cv::Ptr<cv::Feature2D> detector;
+    if (detectorType == "FAST") {
+        detector = cv::FastFeatureDetector::create();
+    } else if (detectorType == "BRISK") {
+        detector = cv::BRISK::create();
+    } else if (detectorType == "ORB") {
+        detector = cv::ORB::create();
+    } else if (detectorType == "AKAZE") {
+        detector = cv::AKAZE::create();
+    } else if (detectorType == "SIFT") {
+        detector = cv::SIFT::create();
+    } else {
+        throw std::runtime_error("Unsupported modern detector. Supported detectors are: FAST, BRISK, ORB, AKAZE, SIFT.");
+    }
+
+    // time
+    double t = static_cast<double>(cv::getTickCount());
+
+    detector->detect(img, keypoints);
+
+    // time
+    t = (static_cast<double>(cv::getTickCount()) - t) / cv::getTickFrequency();
+    std::cout << detectorType << " detection with n=" << keypoints.size() << " keypoints in " << 1000 * t / 1.0 << " ms" << endl;
 }

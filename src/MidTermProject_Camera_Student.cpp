@@ -97,7 +97,7 @@ int main(int argc, const char *argv[])
         {
             detKeypointsHarris(keypoints, imgGray, visualizeKeypoints);
         } else {
-            // detKeypointsModern(keypoints,  imgGray, detectorType, visualizeKeypoints);
+            detKeypointsModern(keypoints,  imgGray, detectorType, visualizeKeypoints);
         }
         //// EOF STUDENT ASSIGNMENT
 
