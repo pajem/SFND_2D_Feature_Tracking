@@ -21,13 +21,15 @@ using namespace std;
 /* MAIN PROGRAM */
 int main(int argc, const char *argv[])
 {
-    if (argc < 2) {
+    if (argc < 3) {
         std::cerr << "Invalid argument count!" << std::endl;
-        std::cerr << "2d_feature_tracking [detector type]" << std::endl;
+        std::cerr << "2d_feature_tracking [detector type] [descriptor type]" << std::endl;
         std::cerr << "Detector Types: SHITOMASI, HARRIS, FAST, BRISK, ORB, AKAZE, SIFT" << std::endl;
+        std::cerr << "Descriptor Types: BRISK, BRIEF, ORB, FREAK, AKAZE, SIFT" << std::endl;
         return EXIT_FAILURE;
     }
-    std::string detectorType = argv[1];
+    std::string detectorType = argv[1]; // SHITOMASI, HARRIS, FAST, BRISK, ORB, AKAZE, SIFT
+    std::string descriptorType = argv[2]; // BRISK, BRIEF, ORB, FREAK, AKAZE, SIFT
 
     /* INIT VARIABLES AND DATA STRUCTURES */
 
@@ -144,7 +146,6 @@ int main(int argc, const char *argv[])
         //// -> BRIEF, ORB, FREAK, AKAZE, SIFT
 
         cv::Mat descriptors;
-        string descriptorType = "BRISK"; // BRIEF, ORB, FREAK, AKAZE, SIFT
         descKeypoints((dataBuffer.end() - 1)->keypoints, (dataBuffer.end() - 1)->cameraImg, descriptors, descriptorType);
         //// EOF STUDENT ASSIGNMENT
 
