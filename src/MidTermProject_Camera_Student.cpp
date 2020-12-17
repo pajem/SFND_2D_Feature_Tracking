@@ -21,15 +21,17 @@ using namespace std;
 /* MAIN PROGRAM */
 int main(int argc, const char *argv[])
 {
-    if (argc < 3) {
+    if (argc < 4) {
         std::cerr << "Invalid argument count!" << std::endl;
-        std::cerr << "2d_feature_tracking [detector type] [descriptor type]" << std::endl;
+        std::cerr << "2d_feature_tracking [detector type] [descriptor type] [matcher type]" << std::endl;
         std::cerr << "Detector Types: SHITOMASI, HARRIS, FAST, BRISK, ORB, AKAZE, SIFT" << std::endl;
         std::cerr << "Descriptor Types: BRISK, BRIEF, ORB, FREAK, AKAZE, SIFT" << std::endl;
+        std::cerr << "Matcher Types: MAT_BF, MAT_FLANN" << std::endl;
         return EXIT_FAILURE;
     }
     std::string detectorType = argv[1]; // SHITOMASI, HARRIS, FAST, BRISK, ORB, AKAZE, SIFT
     std::string descriptorType = argv[2]; // BRISK, BRIEF, ORB, FREAK, AKAZE, SIFT
+    string matcherType = argv[3]; // MAT_BF, MAT_FLANN
 
     /* INIT VARIABLES AND DATA STRUCTURES */
 
@@ -160,7 +162,6 @@ int main(int argc, const char *argv[])
             /* MATCH KEYPOINT DESCRIPTORS */
 
             vector<cv::DMatch> matches;
-            string matcherType = "MAT_BF";        // MAT_BF, MAT_FLANN
             string descriptorType = "DES_BINARY"; // DES_BINARY, DES_HOG
             string selectorType = "SEL_NN";       // SEL_NN, SEL_KNN
 
