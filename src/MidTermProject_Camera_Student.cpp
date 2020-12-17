@@ -59,6 +59,11 @@ int main(int argc, const char *argv[])
         //// STUDENT ASSIGNMENT
         //// TASK MP.1 -> replace the following code with ring buffer of size dataBufferSize
 
+        // make space for new frame
+        while (dataBuffer.size() >= dataBufferSize) {
+            dataBuffer.erase(dataBuffer.begin());
+        }
+
         // push image into data frame buffer
         DataFrame frame;
         frame.cameraImg = imgGray;
